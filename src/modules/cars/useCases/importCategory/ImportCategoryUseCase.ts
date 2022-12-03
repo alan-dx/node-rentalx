@@ -1,18 +1,43 @@
 import csvParse from 'csv-parse';
 import fs from 'fs';
 
+import { CategoriesRepository } from '../../repositories/implementations/CategoriesRepository';
+
+interface IImportCategory {
+  name: string;
+  description: string;
+}
+
 class ImportCategoryUseCase {
-  execute(file: Express.Multer.File): void {
-    const stream = fs.createReadStream(file.path); // Leitura do csv em chunks(pedaços)
+  constructor(private categoriesRepository: CategoriesRepository) {}
 
-    const parseFile = csvParse.parse(); // Instancia do csvParse que fara a leitura do csv chunk
+  loadCategories(file: Express.Multer.File): Promise<IImportCategory[]> {
+    return new Promise((resolve, reject) => {
+      const stream = fs.createReadStream(file.path); // Leitura do csv em chunks(pedaços)
+      const categories: IImportCategory[] = [];
 
-    stream.pipe(parseFile); // Cria uma especie de pipeline que utilizara o csvParse para ler cada pedaco do arquivo
+      const parseFile = csvParse.parse(); // Instancia do csvParse que fara a leitura do csv chunk
 
-    parseFile.on('data', async line => {
-      // Cria um callback que executa toda vez que a leitura do chunk do csv for finalizada
-      console.log(line);
+      stream.pipe(parseFile); // Cria uma especie de pipeline que utilizara o csvParse para ler cada pedaco do arquivo
+
+      parseFile
+        .on('data', async line => {
+          // Cria um callback que executa toda vez que a leitura do chunk do csv for finalizada
+          const [name, description] = line;
+          categories.push({ name, description });
+        })
+        .on('end', () => {
+          resolve(categories);
+        })
+        .on('error', err => {
+          reject(err);
+        });
     });
+  }
+
+  async execute(file: Express.Multer.File): Promise<void> {
+    const categories = await this.loadCategories(file);
+    console.log(categories);
   }
 }
 
