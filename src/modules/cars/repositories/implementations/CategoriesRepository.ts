@@ -8,20 +8,20 @@ import {
 
 class CategoriesRepository implements ICategoriesRepository {
   private repository: Repository<Category>; // É a instancia do Repository do typeorm que dara acesso a todos os metodos do ORM, permitindo assim alterar os dados no banco. Esse metodos serão utilizados para manipular os dados
-  private static INSTANCE: CategoriesRepository; // Atributo de classe
+  // private static INSTANCE: CategoriesRepository; // Atributo de classe
 
-  private constructor() {
+  constructor() {
     this.repository = getRepository(Category); // Vai gerar o repository do typeORM utilizando a Entity Category
   }
 
-  public static getInstance(): CategoriesRepository {
-    // metodo de classe
-    if (!CategoriesRepository.INSTANCE) {
-      CategoriesRepository.INSTANCE = new CategoriesRepository();
-    }
+  // public static getInstance(): CategoriesRepository {
+  //   // metodo de classe
+  //   if (!CategoriesRepository.INSTANCE) {
+  //     CategoriesRepository.INSTANCE = new CategoriesRepository();
+  //   }
 
-    return CategoriesRepository.INSTANCE;
-  }
+  //   return CategoriesRepository.INSTANCE;
+  // }
 
   async create({ name, description }: ICreateCategoryDTO): Promise<void> {
     const category = this.repository.create({
