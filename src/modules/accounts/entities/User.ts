@@ -13,6 +13,9 @@ class User {
   username: string;
 
   @Column()
+  email: string;
+
+  @Column()
   password: string;
 
   @Column()
