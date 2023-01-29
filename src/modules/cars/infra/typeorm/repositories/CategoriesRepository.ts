@@ -1,10 +1,11 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { Category } from '../../entities/Category';
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
-} from '../ICategoriesRepository';
+} from '@modules/cars/repositories/ICategoriesRepository';
+
+import { Category } from '../entities/Category';
 
 class CategoriesRepository implements ICategoriesRepository {
   private repository: Repository<Category>; // É a instancia do Repository do typeorm que dara acesso a todos os metodos do ORM, permitindo assim alterar os dados no banco. Esse metodos serão utilizados para manipular os dados
