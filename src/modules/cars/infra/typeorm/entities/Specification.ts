@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn, CreateDateColumn } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 
-@Entity('specifications')
+@Entity('specifications') // Criando a entidade que vai representar a tabela specifications
 class Specification {
   @PrimaryColumn()
   id?: string;

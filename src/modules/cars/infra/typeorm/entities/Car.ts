@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 
-import { Category } from '@modules/cars/infra/typeorm/entities/Category';
+import { Category } from './Category';
 
-@Entity('cars')
+@Entity('cars') // Criando a entidade que vai representar a tabela cars
 class Car {
   @PrimaryColumn() // Pk
   id: string;
