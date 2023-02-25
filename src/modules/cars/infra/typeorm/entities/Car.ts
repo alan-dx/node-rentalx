@@ -46,7 +46,7 @@ class Car {
   @Column()
   category_id: string;
 
-  @ManyToMany(() => Specification)
+  @ManyToMany(() => Specification) // Isso aqui constroi o relacionamento many to many >>>
   @JoinTable({
     name: 'specifications_cars',
     joinColumns: [{ name: 'car_id' }], // Nome da coluna (na tabela de relacionamentos) que armazena a FK que aponta para ESTE model (Car)

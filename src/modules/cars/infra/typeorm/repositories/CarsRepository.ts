@@ -13,6 +13,7 @@ class CarsRepository implements ICarsRepository {
   }
 
   async create({
+    id,
     brand,
     category_id,
     daily_rate,
@@ -31,6 +32,7 @@ class CarsRepository implements ICarsRepository {
       license_plate,
       name,
       specifications,
+      id, // Isso aqui evita de criar um novo item quando a intencao eh apenas atualizar. Em alguns casos, para atualizar os dados do carro chama-se o metodo create desse repositorio
     });
 
     await this.repository.save(car);

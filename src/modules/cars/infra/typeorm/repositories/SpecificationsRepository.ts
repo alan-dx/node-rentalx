@@ -7,8 +7,6 @@ import {
 
 import { Specification } from '../entities/Specification';
 
-// Faltava 14:28
-
 class SpecificationRepository implements ISpecificationRepository {
   private repository: Repository<Specification>;
 
@@ -16,13 +14,17 @@ class SpecificationRepository implements ISpecificationRepository {
     this.repository = getRepository(Specification);
   }
 
-  async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
+  async create({
+    name,
+    description,
+  }: ICreateSpecificationDTO): Promise<Specification> {
     const specification = this.repository.create({
       description,
       name,
     });
 
     await this.repository.save(specification);
+    return specification;
   }
 
   async findByName(name: string): Promise<Specification> {
@@ -31,6 +33,12 @@ class SpecificationRepository implements ISpecificationRepository {
     });
 
     return specification;
+  }
+
+  async findByIds(ids: string[]): Promise<Specification[]> {
+    const specifications = await this.repository.findByIds(ids);
+
+    return specifications;
   }
 }
 
