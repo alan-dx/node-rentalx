@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import '@shared/container/providers';
+
 import { UsersRepository } from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
 import { CarsImagesRepository } from '@modules/cars/infra/typeorm/repositories/CarsImagesRepository';
@@ -10,6 +12,8 @@ import { ICarsImageRepository } from '@modules/cars/repositories/ICarsImagesRepo
 import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
 import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository';
 import { ISpecificationRepository } from '@modules/cars/repositories/ISpecificationRepository';
+import { Rentalsrepository } from '@modules/rentals/infra/typeorm/repositories/RentalsRepository';
+import { IRentalsRepository } from '@modules/rentals/repositories/IRentalRepository';
 
 // ICategoriesRepository
 container.registerSingleton<ICategoriesRepository>( // Como generic, é informado qual o protocolo da dependência
@@ -36,4 +40,10 @@ container.registerSingleton<ICarsRepository>('CarsRepository', CarsRepository);
 container.registerSingleton<ICarsImageRepository>(
   'CarsImageRepository',
   CarsImagesRepository,
+);
+
+// ICarsImageRepository
+container.registerSingleton<IRentalsRepository>(
+  'RentalsRepository',
+  Rentalsrepository,
 );
