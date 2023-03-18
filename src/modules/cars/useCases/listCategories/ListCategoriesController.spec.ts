@@ -7,7 +7,7 @@ import { app } from '@shared/infra/http/app';
 import createConnection from '@shared/infra/typeorm';
 
 let connection: Connection;
-describe('CreateCategoryController', () => {
+describe('ListCategoriesController', () => {
   beforeAll(async () => {
     connection = await createConnection(); // Criando a conexao com o banco de dados de teste (a definicao do host foi definida por variavel ambiente)
     await connection.runMigrations();
@@ -28,7 +28,7 @@ describe('CreateCategoryController', () => {
     await connection.close();
   });
 
-  test('should be able to create a new category', async () => {
+  test('should be able to list all categories', async () => {
     const responseToken = await request(app).post('/sessions').send({
       // FAzendo a request pra autenticar
       email: 'admin@rentalx.com.br',
@@ -37,7 +37,7 @@ describe('CreateCategoryController', () => {
 
     const { token } = responseToken.body;
 
-    const response = await request(app)
+    await request(app)
       .post('/categories')
       .send({
         name: 'Category Supertest',
@@ -48,29 +48,10 @@ describe('CreateCategoryController', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(201);
-  });
+    const response = await request(app).get('/categories');
 
-  test('should not be able to create a category that already exists', async () => {
-    const responseToken = await request(app).post('/sessions').send({
-      // FAzendo a request pra autenticar
-      email: 'admin@rentalx.com.br',
-      password: 'admin',
-    });
-
-    const { token } = responseToken.body;
-
-    const response = await request(app)
-      .post('/categories')
-      .send({
-        name: 'Category Supertest',
-        description: 'Category Supertest',
-      })
-      .set({
-        // Definindo o header de autenticacao
-        Authorization: `Bearer ${token}`,
-      });
-
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0]).toHaveProperty('id');
   });
 });
