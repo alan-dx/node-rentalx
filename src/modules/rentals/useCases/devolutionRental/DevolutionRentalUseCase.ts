@@ -27,7 +27,7 @@ class DevolutionRentalUseCase {
     const car = await this.carsRepository.findById(rental.car_id);
     const minimumDaily = 1;
 
-    if (!rental) throw new AppError('Rental not existis');
+    if (!rental || rental.end_date) throw new AppError('Rental not existis');
 
     const currentDate = this.dateProvider.dateNow();
 
