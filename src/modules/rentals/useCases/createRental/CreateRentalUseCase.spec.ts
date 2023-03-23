@@ -27,9 +27,19 @@ describe('CreateRentalUseCase', () => {
   });
 
   test('should be able to create a new rental', async () => {
+    const car = await carsRepositoryInMemory.create({
+      name: 'Test',
+      description: 'Car Test',
+      daily_rate: 100,
+      license_plate: 'test',
+      fine_amount: 40,
+      category_id: '1234',
+      brand: 'brand',
+    });
+
     const rental = await createRentalUseCase.execute({
       user_id: '12345',
-      car_id: '123123',
+      car_id: car.id,
       expected_return_date: dayAdd24Hours,
     });
 
@@ -37,15 +47,25 @@ describe('CreateRentalUseCase', () => {
   });
 
   test('should not be able to create a new rental if there is another open to the same user', async () => {
+    const car = await carsRepositoryInMemory.create({
+      name: 'Test',
+      description: 'Car Test',
+      daily_rate: 100,
+      license_plate: 'test',
+      fine_amount: 40,
+      category_id: '1234',
+      brand: 'brand',
+    });
+
     await createRentalUseCase.execute({
       user_id: '12345',
-      car_id: '123123',
+      car_id: car.id,
       expected_return_date: dayAdd24Hours,
     });
 
     const promise = createRentalUseCase.execute({
       user_id: '12345',
-      car_id: '12313',
+      car_id: car.id,
       expected_return_date: dayAdd24Hours,
     });
 
@@ -55,7 +75,7 @@ describe('CreateRentalUseCase', () => {
   test('should not be able to create a new rental with invalid return time', async () => {
     const promise = createRentalUseCase.execute({
       user_id: '12345',
-      car_id: '123123',
+      car_id: '1234',
       expected_return_date: dayjs().toDate(),
     });
 
