@@ -58,7 +58,8 @@ class RentalsRepository implements IRentalsRepository {
 
   async findByUserId(user_id: string): Promise<Rental[]> {
     const rentals = this.repository.find({
-      user_id,
+      where: { user_id }, // Condição => "Busque, na tabela de rentals, o item que possui o user_id igual ao informado"
+      relations: ['car'], // Informa qual relacionamento deve ser buscado, vai fazer um join na tabela de carros, conforme configurado no Model Rental
     });
 
     return rentals;
