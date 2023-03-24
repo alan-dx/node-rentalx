@@ -5,7 +5,7 @@ import { IUserTokensRepository } from '@modules/accounts/repositories/IUserToken
 
 import { UserTokens } from '../entities/UserTokens';
 
-class UserTokensRepository implements IUserTokensRepository {
+class UsersTokensRepository implements IUserTokensRepository {
   private repository: Repository<UserTokens>;
   constructor() {
     this.repository = getRepository(UserTokens);
@@ -28,4 +28,4 @@ class UserTokensRepository implements IUserTokensRepository {
   }
 }
 
-export { UserTokensRepository };
+export { UsersTokensRepository };
