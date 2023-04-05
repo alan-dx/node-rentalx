@@ -4,6 +4,8 @@ import { IDateProvider } from './DateProvider/IDateProvider';
 import { DayjsDateProvider } from './DateProvider/implementations/DayjsDateProvider';
 import { IMailProvider } from './MailProvier/IMailProvider';
 import { EtherealMailProvider } from './MailProvier/implementations/EtherealMailProvider';
+import { LocalStorageProvider } from './StorageProvider/implementations/LocalStorageProvider';
+import { IStorageProvider } from './StorageProvider/IStorageProvider';
 
 container.registerSingleton<IDateProvider>(
   'DayjsDateProvider',
@@ -15,4 +17,9 @@ container.registerSingleton<IDateProvider>(
 container.registerInstance<IMailProvider>(
   'EtherealMailProvider',
   new EtherealMailProvider(), // Passa uma instancia ao inves da classe
+);
+
+container.registerSingleton<IStorageProvider>(
+  'StorageProvider',
+  LocalStorageProvider,
 );
