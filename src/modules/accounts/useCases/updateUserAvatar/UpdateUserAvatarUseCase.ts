@@ -5,7 +5,7 @@ import { IStorageProvider } from '@shared/container/providers/StorageProvider/IS
 
 interface IRequest {
   user_id: string;
-  avatar_file: string;
+  avatar_filename: string;
 }
 @injectable()
 class UpdateUserAvatarUseCase {
@@ -16,14 +16,14 @@ class UpdateUserAvatarUseCase {
     private storageProvider: IStorageProvider,
   ) {}
 
-  async execute({ avatar_file, user_id }: IRequest): Promise<void> {
+  async execute({ avatar_filename, user_id }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
     if (user.avatar) await this.storageProvider.delete(user.avatar, 'avatar');
 
-    await this.storageProvider.save(avatar_file, 'avatar');
+    await this.storageProvider.save(avatar_filename, 'avatar');
 
-    user.avatar = avatar_file;
+    user.avatar = avatar_filename;
 
     await this.usersRepository.create(user);
   }
