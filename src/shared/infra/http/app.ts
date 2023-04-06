@@ -1,3 +1,4 @@
+import uploadConfig from '@config/upload';
 import 'reflect-metadata';
 import '@shared/container';
 import 'dotenv/config';
@@ -14,6 +15,9 @@ createConnection();
 const app = express();
 
 app.use(express.json());
+
+app.use('/avatar', express.static(`${uploadConfig.tmpFolder}/avatar`));
+app.use('/cars', express.static(`${uploadConfig.tmpFolder}/cars`));
 
 app.use(router);
 
